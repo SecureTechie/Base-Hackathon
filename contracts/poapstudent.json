@@ -1,6 +1,6 @@
 {
-	"address": "0x7E611cd4D7deb2E045B35d625044175bC9040354",
-	"abi": [[
+  "address": "0xd2a829C8BFc3d65A534924Cd319C9DB0B6cb7577",
+  "abi": [[
 	{
 		"inputs": [
 			{
@@ -141,5 +141,5 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]]
+]  ]
 }
