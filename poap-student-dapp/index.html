@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POAP Student DApp | Premium Learning Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1320;
+            --accent: #6ee7b7;
+            --accent-dark: #34d399;
+            --muted: #9aa4b2;
+            --text: #e6eef6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, #10b981, #06b6d4);
+            --gradient-accent: linear-gradient(135deg, #6ee7b7, #34d399);
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.2s ease;
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #071025 0%, #0f1724 50%, #0a1525 100%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 36, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(110, 231, 183, 0.1) 0%, rgba(110, 231, 183, 0) 70%);
+            animation: float 20s infinite linear;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            top: 30%;
+            left: 60%;
+            animation-delay: -10s;
+        }
+
+        .bg-circle:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            top: 80%;
+            left: 10%;
+            animation-delay: -15s;
+        }
+
+        /* Header & Navigation */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 2rem;
+            position: sticky;
+            top: 0;
+            background: rgba(11, 19, 32, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 100;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .header.scrolled {
+            padding: 0.8rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #042027;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(110, 231, 183, 0.3);
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav a.active {
+            color: var(--accent);
+            background: rgba(110, 231, 183, 0.1);
+        }
+
+        .nav a.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--gradient-accent);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.4rem;
+            border-radius: var(--border-radius-sm);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn.primary {
+            background: var(--gradient);
+            color: #042027;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem;
+            animation: fadeIn 0.8s ease-out;
+            min-height: calc(100vh - 140px);
+        }
+
+        .page {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page.active {
+            display: block;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            margin-top: 0.75rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            background: rgba(11, 19, 32, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(110, 231, 183, 0.1), transparent 60%),
+                        radial-gradient(circle at bottom left, rgba(6, 182, 212, 0.1), transparent 60%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--muted);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: rgba(110, 231, 183, 0.2);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(110, 231, 183, 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #042027;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Events Page */
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.2);
+        }
+
+        .events-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: rgba(110, 231, 183, 0.2);
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-accent);
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-date {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-description {
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .event-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-live {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status-upcoming {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .status-ended {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+        }
+
+        .event-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--gradient-accent);
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* Badges Page */
+        .badges-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .badge {
+            background: var(--card);
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+            animation-delay: 0.1s;
+            animation-fill-mode: both;
+        }
+
+        .badge:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--shadow);
+        }
+
+        .badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(110, 231, 183, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .badge:hover::before {
+            opacity: 1;
+        }
+
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #042027;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .badge-description {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .badge-rarity {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            background: rgba(110, 231, 183, 0.2);
+            color: var(--accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--muted);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--muted);
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .empty-state p {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* Wallet Connection */
+        .wallet-info {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem 2rem;
+            color: var(--muted);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(11, 19, 32, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--muted);
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--gradient);
+            color: #042027;
+            transform: translateY(-3px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -50px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .events-list {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main {
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .events-list,
+            .badges-grid,
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1.2rem 1.5rem;
+            border-radius: var(--border-radius);
+            background: var(--card);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+            border-left: 4px solid var(--success);
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification i {
+            color: var(--success);
+            font-size: 1.2rem;
+        }
+
+        .notification-content h4 {
+            margin: 0 0 0.2rem;
+            font-size: 1rem;
+        }
+
+        .notification-content p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+        <div class="bg-circle"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-certificate"></i>
+            </div>
+            <h1>POAP Student</h1>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Home</a>
+            <a href="#" class="nav-link" data-page="events"><i class="fas fa-calendar-alt"></i> Events</a>
+            <a href="#" class="nav-link" data-page="badges"><i class="fas fa-award"></i> My Badges</a>
+        </nav>
+        <div class="user-actions">
+            <div class="wallet-info">
+                <div class="wallet-address">
+                    <i class="fas fa-wallet"></i> 0x1a2b...3c4d
+                </div>
+                <button class="btn secondary" id="disconnect-wallet">
+                    <i class="fas fa-sign-out-alt"></i> Disconnect
+                </button>
+            </div>
+            <button class="btn primary" id="connect-wallet">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <div class="hero">
+                <h1>Elevate Your Learning Journey with POAP</h1>
+                <p>Collect verifiable Proof of Attendance Protocol badges from educational events, workshops, and courses. Showcase your achievements on the blockchain.</p>
+                <div class="hero-actions">
+                    <button class="btn primary" id="hero-connect">
+                        <i class="fas fa-rocket"></i> Get Started
+                    </button>
+                    <button class="btn secondary">
+                        <i class="fas fa-play-circle"></i> Watch Demo
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-label">Active Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Events Hosted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8,932</div>
+                    <div class="stat-label">Badges Minted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <div>
+                    <h2 class="page-title">Why Choose POAP Student?</h2>
+                    <p class="page-subtitle">Our platform offers a seamless experience for students to engage with educational content and verifiably prove their participation.</p>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Premium Experience</h3>
+                    <p>Enjoy a beautifully designed interface with smooth animations and intuitive navigation that makes learning enjoyable.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Verifiable Credentials</h3>
+                    <p>All your badges are stored on the blockchain, providing immutable proof of your educational achievements.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Connected Ecosystem</h3>
+                    <p>Join a thriving community of learners and educators, and discover opportunities for collaboration and growth.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Page -->
+        <div class="page" id="events-page">
+            <div class="page-header">
+                <div>
+                    <h2 class="page-title">Discover Events</h2>
+                    <p class="page-subtitle">Browse through workshops, seminars, and courses where you can earn POAP badges for attendance.</p>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" class="input" placeholder="Search events by name, topic, or date...">
+                <button class="btn primary"><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div class="events-list">
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3 class="event-title"><i class="fas fa-code"></i> Advanced Web3 Development</h3>
+                            <div class="event-date"><i class="far fa-calendar"></i> June 15, 2023 | 2:00 PM EST</div>
+                        </div>
+                        <div class="event-status status-upcoming">
+                            <i class="fas fa-clock"></i> Upcoming
+                        </div>
+                    </div>
+                    <p class="event-description">
+                        Dive deep into Web3 development with hands-on workshops on smart contracts, dApps, and blockchain integration.
+                    </p>
+                    <div class="event-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>65% filled</span>
+                            <span>32/50 spots</span>
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn primary"><i class="fas fa-ticket-alt"></i> Register Now</button>
+                        <button class="btn secondary"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3 class="event-title"><i class="fas fa-paint-brush"></i> Digital Art & NFT Masterclass</h3>
+                            <div class="event-date"><i class="far fa-calendar"></i> June 22, 2023 | 4:00 PM EST</div>
+                        </div>
+                        <div class="event-status status-upcoming">
+                            <i class="fas fa-clock"></i> Upcoming
+                        </div>
+                    </div>
+                    <p class="event-description">
+                        Learn to create, mint, and sell your digital artwork as NFTs. From creation to marketplace listing.
+                    </p>
+                    <div class="event-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 30%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>30% filled</span>
+                            <span>15/50 spots</span>
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn primary"><i class="fas fa-ticket-alt"></i> Register Now</button>
+                        <button class="btn secondary"><i class="far fa-bookmark"></i> Save</button>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-header">
+                        <div>
+                            <h3 class="event-title"><i class="fas fa-chalkboard-teacher"></i> Blockchain Fundamentals</h3>
+                            <div class="event-date"><i class="far fa-calendar"></i> June 10, 2023 | 1:00 PM EST</div>
+                        </div>
+                        <div class="event-status status-live">
+                            <i class="fas fa-circle"></i> Live Now
+                        </div>
+                    </div>
+                    <p class="event-description">
+                        Perfect for beginners. Learn the core concepts of blockchain technology and its real-world applications.
+                    </p>
+                    <div class="event-progress">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>85% filled</span>
+                            <span>42/50 spots</span>
+                        </div>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn secondary" disabled><i class="fas fa-check-circle"></i> Registered</button>
+                        <button class="btn primary"><i class="fas fa-video"></i> Join Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badges Page -->
+        <div class="page" id="badges-page">
+            <div class="page-header">
+                <div>
+                    <h2 class="page-title">My POAP Badges</h2>
+                    <p class="page-subtitle">Your collection of educational achievements and milestones.</p>
+                </div>
+                <div class="badges-header">
+                    <button class="btn secondary"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+
+            <div class="badges-grid">
+                <div class="badge">
+                    <div class="badge-rarity">Rare</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4 class="badge-title">Web3 Scholar</h4>
+                    <p class="badge-description">Completed 5 advanced Web3 development courses with distinction</p>
+                </div>
+
+                <div class="badge">
+                    <div class="badge-rarity">Epic</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4 class="badge-title">Solidity Master</h4>
+                    <p class="badge-description">Demonstrated exceptional skill in smart contract development</p>
+                </div>
+
+                <div class="badge">
+                    <div class="badge-rarity">Common</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="badge-title">Community Builder</h4>
+                    <p class="badge-description">Active participation in 5+ community events and discussions</p>
+                </div>
+
+                <div class="badge">
+                    <div class="badge-rarity">Rare</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4 class="badge-title">Early Adopter</h4>
+                    <p class="badge-description">Joined the platform during the first month of launch</p>
+                </div>
+
+                <div class="badge">
+                    <div class="badge-rarity">Epic</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="badge-title">Security Expert</h4>
+                    <p class="badge-description">Completed advanced smart contract security audit course</p>
+                </div>
+
+                <div class="badge">
+                    <div class="badge-rarity">Common</div>
+                    <div class="badge-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h4 class="badge-title">Digital Artist</h4>
+                    <p class="badge-description">Created and minted original NFT artwork on the platform</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h1>POAP Student</h1>
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">FAQ</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p>© 2023 POAP Student DApp. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification">
+        <i class="fas fa-check-circle"></i>
+        <div class="notification-content">
+            <h4>Successfully Registered!</h4>
+            <p>You are now registered for Advanced Web3 Development</p>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Show corresponding page
+                const pageId = this.getAttribute('data-page') + '-page';
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Wallet Connection
+        const connectWalletBtn = document.getElementById('connect-wallet');
+        const disconnectWalletBtn = document.getElementById('disconnect-wallet');
+        const heroConnectBtn = document.getElementById('hero-connect');
+        const walletInfo = document.querySelector('.wallet-info');
+
+        function connectWallet() {
+            // Simulate wallet connection
+            walletInfo.style.display = 'flex';
+            connectWalletBtn.style.display = 'none';
+            
+            // Show notification
+            showNotification('Wallet Connected', 'Your wallet has been successfully connected to the application.');
+            
+            // If on home page, update the hero section
+            if (document.getElementById('home-page').classList.contains('active')) {
+                document.querySelector('.hero h1').textContent = 'Welcome Back!';
+                document.querySelector('.hero p').textContent = 'Your wallet is connected. Start exploring events and collecting badges to enhance your learning journey.';
+                heroConnectBtn.innerHTML = '<i class="fas fa-rocket"></i> Explore Events';
+                heroConnectBtn.setAttribute('data-page', 'events');
+            }
+        }
+
+        function disconnectWallet() {
+            // Simulate wallet disconnection
+            walletInfo.style.display = 'none';
+            connectWalletBtn.style.display = 'block';
+            
+            // If on home page, reset the hero section
+            if (document.getElementById('home-page').classList.contains('active')) {
+                document.querySelector('.hero h1').textContent = 'Elevate Your Learning Journey with POAP';
+                document.querySelector('.hero p').textContent = 'Collect verifiable Proof of Attendance Protocol badges from educational events, workshops, and courses. Showcase your achievements on the blockchain.';
+                heroConnectBtn.innerHTML = '<i class="fas fa-rocket"></i> Get Started';
+                heroConnectBtn.removeAttribute('data-page');
+            }
+        }
+
+        connectWalletBtn.addEventListener('click', connectWallet);
+        disconnectWalletBtn.addEventListener('click', disconnectWallet);
+        heroConnectBtn.addEventListener('click', function() {
+            if (this.getAttribute('data-page') === 'events') {
+                document.querySelector('[data-page="events"]').click();
+            } else {
+                connectWallet();
+            }
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Event registration
+        document.querySelectorAll('.event-actions .btn.primary').forEach(btn => {
+            if (!btn.disabled && !btn.innerHTML.includes('Join Now')) {
+                btn.addEventListener('click', function() {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+                    this.disabled = true;
+                    
+                    // Simulate registration process
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-check-circle"></i> Registered';
+                        this.classList.remove('primary');
+                        this.classList.add('secondary');
+                        
+                        // Update status if available
+                        const statusElement = this.closest('.event-card').querySelector('.event-status');
+                        if (statusElement && statusElement.classList.contains('status-upcoming')) {
+                            statusElement.className = 'event-status status-live';
+                            statusElement.innerHTML = '<i class="fas fa-circle"></i> Registered';
+                        }
+                        
+                        // Show notification
+                        const eventTitle = this.closest('.event-card').querySelector('.event-title').textContent;
+                        showNotification('Successfully Registered!', `You are now registered for ${eventTitle}`);
+                    }, 2000);
+                });
+            }
+        });
+
+        // Progress bar animation
+        document.querySelectorAll('.progress').forEach(progress => {
+            const width = progress.style.width;
+            progress.style.width = '0%';
+            
+            setTimeout(() => {
+                progress.style.width = width;
+            }, 500);
+        });
+
+        // Animation for cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.event-card, .badge, .feature-card, .stat-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Notification function
+        function showNotification(title, message) {
+            const notification = document.querySelector('.notification');
+            notification.querySelector('h4').textContent = title;
+            notification.querySelector('p').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Initialize with some animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate stats counter
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 30);
+            });
+        });
+    </script>
+</body>
+</html>
